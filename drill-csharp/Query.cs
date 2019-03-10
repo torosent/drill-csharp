@@ -4,19 +4,9 @@ using Newtonsoft.Json;
 
 namespace drill_csharp
 {
-    public class QueryResponse
-    {
-        public string[] Columns { get; set; }
-
-        public dynamic[] Rows { get; set; }
-
-        public dynamic[] Metadata { get; set; }
-
-        public string QueryId { get; set; }
-    }
     public class Query
     {
-        private DrillBit _drillbit;
+        private readonly DrillBit _drillbit;
 
         public Query(DrillBit drillbit)
         {
