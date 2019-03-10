@@ -1,4 +1,5 @@
 using NUnit.Framework;
+using System.Linq;
 using drill_csharp;
 
 namespace Tests
@@ -26,21 +27,33 @@ namespace Tests
         public void TestDfsQuery()
         {
             var bit = new DrillBit(address);
-            var query = new Query(bit);
+            var query = new Query<QueryResponse>(bit);
             var result = query.Execute("use dfs").Result;
             var summary = result.Rows[0].summary.ToString();
             Assert.AreEqual("Default schema changed to [dfs]", summary);
         }
 
         [Test]
+        public void TestFilesQuery()
+        {
+            var bit = new DrillBit(address);
+            var query = new Query<QueryFileResponse>(bit);
+            var result = query.Execute("show files in dfs.`/tmp`").Result;
+
+            Assert.IsTrue(result.Rows.Any(x => x.Name == "donuts.json"));
+        }
+
+        [Test]
         public void TestDonutsQuery()
         {
             var bit = new DrillBit(address);
-            var query = new Query(bit);
+            var query = new Query<QueryResponse>(bit);
             var result = query.Execute("select * from dfs.`/tmp/donuts.json` where name= \u0027Cake\u0027").Result;
 
             var id = result.Rows[0].id.ToString();
             Assert.AreEqual("0001", id);
         }
+
+
     }
 }

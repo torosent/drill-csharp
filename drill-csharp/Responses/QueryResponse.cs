@@ -4,7 +4,7 @@ namespace drill_csharp
     {
         public string[] Columns { get; set; }
 
-        public dynamic[] Rows { get; set; }
+        public virtual dynamic[] Rows { get; set; }
 
         public dynamic[] Metadata { get; set; }
 

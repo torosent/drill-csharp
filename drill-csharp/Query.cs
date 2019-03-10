@@ -4,7 +4,7 @@ using Newtonsoft.Json;
 
 namespace drill_csharp
 {
-    public class Query
+    public class Query<T>
     {
         private readonly DrillBit _drillbit;
 
@@ -13,7 +13,7 @@ namespace drill_csharp
             _drillbit = drillbit;
         }
 
-        public async Task<QueryResponse> Execute(string sql)
+        public async Task<T> Execute(string sql)
         {
             var url = "query.json";
             var query = new Dictionary<string, string>();
@@ -21,7 +21,7 @@ namespace drill_csharp
             query.Add("query", sql);
 
             var result = await _drillbit.PostRequest(url, query);
-            var response = JsonConvert.DeserializeObject<QueryResponse>(result);
+            var response = JsonConvert.DeserializeObject<T>(result);
             return response;
         }
     }
